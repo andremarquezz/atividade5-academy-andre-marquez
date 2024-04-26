@@ -21,8 +21,9 @@ describe("Criação de usuarios", () => {
     cy.get(submitButton).click();
 
     cy.wait("@createUser").then(() => {
-      cy.get(successMessage)
-      .should("contain", "Usuário salvo com sucesso!");
+      cy.get(successMessage).should("contain", "Usuário salvo com sucesso!");
     });
   });
 });
+
+describe("Consulta de usuarios", () => {});
