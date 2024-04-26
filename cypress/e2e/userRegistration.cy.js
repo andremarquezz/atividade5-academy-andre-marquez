@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 
 import {
   emailInput,
-  errorMessage,
+  errorFeedbackMessage,
   errorModal,
   nameInput,
   submitButton,
@@ -43,7 +43,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
 
       cy.get(emailInput).type(email);
       cy.get(submitButton).click();
-      cy.get(errorMessage)
+      cy.get(errorFeedbackMessage)
         .should("be.visible")
         .and("contain", "O campo nome é obrigatório.");
     });
@@ -57,7 +57,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       cy.get(nameInput).type(name);
       cy.get(emailInput).type(email);
       cy.get(submitButton).click();
-      cy.get(errorMessage)
+      cy.get(errorFeedbackMessage)
         .should("be.visible")
         .and("contain", "Informe pelo menos 4 letras para o nome.");
     });
@@ -68,7 +68,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       );
       cy.get(nameInput).type(name);
       cy.get(submitButton).click();
-      cy.get(errorMessage)
+      cy.get(errorFeedbackMessage)
         .should("be.visible")
         .and("contain", "O campo e-mail é obrigatório.");
     });
@@ -86,7 +86,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .and("contain", "Formato de e-mail inválido");
     });
 
-    it.only("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email ja cadastrado", () => {
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email ja cadastrado", () => {
       const errorResponse = { statusCode: 422, error: "User already exists." };
 
       cy.intercept("POST", "/api/v1/users", errorResponse).as("createUser");
@@ -100,6 +100,34 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       cy.get(errorModal)
         .should("be.visible")
         .and("contain", "Este e-mail já é utilizado por outro usuário.");
+    });
+
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com nome com mais de 100 caracteres", () => {
+      const name = faker.lorem.words(101);
+      const email = faker.internet.email();
+
+      cy.get(nameInput).type(name);
+      cy.get(emailInput).type(email);
+
+      cy.get(submitButton).click();
+      cy.get(errorFeedbackMessage)
+        .should("be.visible")
+        .and("contain", "Informe no máximo 100 caracteres para o nome");
+    });
+
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email com mais de 60 caracteres", () => {
+      const name = faker.helpers.arrayElement(
+        faker.rawDefinitions.person.first_name.filter((a) => a.length >= 4)
+      );
+      const email = `${faker.lorem.words(46)}@gmail.com`;
+
+      cy.get(nameInput).type(name);
+      cy.get(emailInput).type(email);
+
+      cy.get(submitButton).click();
+      cy.get(errorFeedbackMessage)
+        .should("be.visible")
+        .and("contain", "Informe no máximo 60 caracteres para o e-mail");
     });
   });
 });
