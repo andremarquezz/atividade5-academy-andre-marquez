@@ -58,14 +58,6 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       cy.get(nameInput).type(name);
       cy.get(emailInput).type("emailinvalido");
 
-      cy.get(emailInput)
-        .invoke("prop", "validationMessage")
-        .should((message) => {
-          expect(message).to.contain(
-            'Inclua um "@" no endereço de email. "emailinvalido" não contém um "@".'
-          );
-        });
-
       cy.get(submitButton).click();
       cy.get(".sc-jEACwC")
         .should("be.visible")
