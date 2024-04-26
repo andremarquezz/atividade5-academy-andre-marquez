@@ -1,0 +1,17 @@
+{
+  "name": "atividade5-academy-andre-marquez",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx cypress open",
+    "test:headless": "npx cypress run"
+  },
+  "keywords": [],
+  "author": "Jey",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "cypress": "^13.8.1"
+  }
+}
