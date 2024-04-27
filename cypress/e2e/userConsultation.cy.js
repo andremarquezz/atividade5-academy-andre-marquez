@@ -15,17 +15,18 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
   });
 
   describe("Quando a consulta de usuarios é realizada com sucesso", () => {
-    it("Deve ser possivel consultar a lista de usuarios ", () => {
-      cy.intercept("GET", "/api/v1/users", { fixture: "users.json" }).as(
-        "getUsers"
-      );
+    it.only("Deve ser possivel consultar a lista de usuarios ", () => {
+      cy.intercept("GET", "/api/v1/users", {
+        fixture: "mockResponseGetAllUsers.json",
+      }).as("getAllUsers");
 
-      cy.wait("@getUsers");
-      const pageOne = response.body.slice(0, 5);
+      cy.wait("@getAllUsers").then(({ response }) => {
+        const pageOne = response.body.slice(0, 5);
 
-      pageOne.forEach((user) => {
-        cy.get(userDataName).should("contain", `Nome: ${user.name}`);
-        cy.get(userDataEmail).should("contain", `E-mail: ${user.email}`);
+        pageOne.forEach((user) => {
+          cy.get(userDataName).should("contain", `Nome: ${user.name}`);
+          cy.get(userDataEmail).should("contain", `E-mail: ${user.email}`);
+        });
       });
     });
 
@@ -57,9 +58,9 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
     });
 
     it.only("Deve ser possível consultar os detalhes de um usuário", () => {
-      cy.intercept("GET", "/api/v1/users", { fixture: "users.json" }).as(
-        "getAllUsers"
-      );
+      cy.intercept("GET", "/api/v1/users", {
+        fixture: "mockResponseGetAllUsers.json",
+      }).as("getAllUsers");
 
       cy.wait("@getAllUsers").then(({ response }) => {
         const user = response.body[0];
