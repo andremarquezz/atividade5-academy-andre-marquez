@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 
+import { mockErrorUserAlreadyExists } from "../fixtures/mockErrors";
 import RegistrationPage from "../support/pages/RegistrationPage";
 
 describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
@@ -93,9 +94,10 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .and("contain", "Formato de e-mail inválido");
     });
 
-    it.only("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email ja cadastrado", () => {
-      const errorResponse = { statusCode: 422, error: "User already exists." };
-      cy.intercept("POST", "/api/v1/users", errorResponse).as("createUser");
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email ja cadastrado", () => {
+      cy.intercept("POST", "/api/v1/users", mockErrorUserAlreadyExists).as(
+        "createUser"
+      );
 
       registrationPage.register("Jeey", "lala@gmail.com");
 
