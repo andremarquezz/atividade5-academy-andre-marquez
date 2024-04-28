@@ -30,6 +30,10 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .should("exist")
         .and("contain", "Usuário salvo com sucesso!");
     });
+
+    it("Deve mostrar o usuario cadastrado na lista de usuarios", () => {
+      throw new Error("Test not implemented");
+    });
   });
 
   describe("Quando o cadastro de usuarios falha", () => {
@@ -66,6 +70,10 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .getErrorFeedbackMessageName()
         .should("be.visible")
         .and("contain", "Informe no máximo 100 caracteres para o nome");
+    });
+
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
+      throw new Error("Test not implemented");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario sem email", () => {
