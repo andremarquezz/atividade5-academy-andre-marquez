@@ -1,14 +1,13 @@
 import { faker } from "@faker-js/faker";
-
 import { mockErrorUserAlreadyExists } from "../fixtures/mockErrors";
-import RegistrationPage from "../support/pages/RegistrationPage";
+import { UserRegistrationPage } from "../support/pages/UserRegistrationPage";
 
 describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
-  const registrationPage = new RegistrationPage();
+  const registrationPage = new UserRegistrationPage();
 
   beforeEach(() => {
     cy.viewport("macbook-16");
-    cy.visit(registrationPage.url);
+    cy.visit(registrationPage.URL);
   });
 
   describe("Quando o cadastro é realizado com sucesso", () => {

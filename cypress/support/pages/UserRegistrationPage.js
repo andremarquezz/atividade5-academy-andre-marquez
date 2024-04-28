@@ -1,4 +1,4 @@
-export default class RegistrationPage {
+export class UserRegistrationPage {
   nameInput = "#name";
   emailInput = "#email";
   submitButton = ".sc-kpDqfm";
@@ -7,12 +7,7 @@ export default class RegistrationPage {
   errorFeedbackMessageEmail = ".sc-jEACwC";
   errorModal = ".sc-dCFHLb";
 
-  url = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users/novo";
-
-  linkPaginaUsuarios = '[href="./usuarios.html"]';
-  linkPaginaSobre = '[href="./sobre.html"]';
-
-  listaUsuarios = "#lista-usuarios";
+  URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users/novo";
 
   typeName(name) {
     cy.get(this.nameInput).type(name);
@@ -24,10 +19,6 @@ export default class RegistrationPage {
 
   clickButtonSubmit() {
     cy.get(this.submitButton).click();
-  }
-
-  getListaUsuarios() {
-    return cy.get(this.listaUsuarios);
   }
 
   getSuccessMessage() {
@@ -53,7 +44,6 @@ export default class RegistrationPage {
     if (email) {
       this.typeEmail(email);
     }
-
     this.clickButtonSubmit();
   }
 }
