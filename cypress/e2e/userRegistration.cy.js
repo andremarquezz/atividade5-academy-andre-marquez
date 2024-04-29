@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { mockErrorUserAlreadyExists } from "../fixtures/mockErrors";
+import { mockErrorUserAlreadyExists } from "../fixtures/mocksErrors";
 import { UserListPage } from "../support/pages/UserListPage";
 import { UserRegistrationPage } from "../support/pages/UserRegistrationPage";
 

@@ -1,4 +1,4 @@
-import { mockErrorInternalServer } from "../fixtures/mockErrors";
+import { mockErrorInternalServer } from "../fixtures/mocksErrors";
 import { UserListPage } from "../support/pages/UserListPage";
 
 describe("Pagina de consulta de usuarios em telas 1536x960", () => {
