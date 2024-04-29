@@ -6,6 +6,7 @@ export class UserListPage {
   modalErrorServerMessage = ".sc-dCFHLb";
   newUserAnchor = ".sc-bmzYkS[href='/users/novo']";
   searchInput = ".sc-gsFSXq";
+  clearSearchButton = ".sc-kAyceB";
 
   URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users";
 
@@ -28,6 +29,9 @@ export class UserListPage {
   clickFirstUserDetailsButton() {
     return cy.get(this.userDetailsButton).first().click();
   }
+  clickClearSearchButton() {
+    return cy.get(this.clearSearchButton).click();
+  }
 
   getEmptyUserListMessage() {
     return cy.get(this.emptyUserListMessage);
@@ -40,11 +44,4 @@ export class UserListPage {
   getModalErrorServerMessage() {
     return cy.get(this.modalErrorServerMessage);
   }
-
-  // createUserAndBackList(name, email) {
-  //   registrationPage.register(name, email);
-
-  //   registrationPage.clickBackButton()
-
-  // }
 }
