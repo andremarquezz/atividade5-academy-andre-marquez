@@ -5,6 +5,7 @@ export class UserListPage {
   emptyUserListMessage = ".sc-koXPp";
   modalErrorServerMessage = ".sc-dCFHLb";
   newUserAnchor = ".sc-bmzYkS[href='/users/novo']";
+  searchInput = ".sc-gsFSXq";
 
   URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users";
 
@@ -18,6 +19,10 @@ export class UserListPage {
 
   getEmail() {
     return cy.get(this.userDataEmail);
+  }
+
+  typeSearchBar(text) {
+    return cy.get(this.searchInput).type(text);
   }
 
   clickFirstUserDetailsButton() {

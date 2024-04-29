@@ -13,18 +13,6 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
       userListPage.visit();
     });
 
-    // it("Deve mostrar o usuario cadastrado na lista de usuarios", () => {
-    //   const name = faker.helpers.arrayElement(
-    //     faker.rawDefinitions.person.first_name.filter((a) => a.length >= 4)
-    //   );
-    //   const email = faker.internet.email();
-
-    //   cy.get(".sc-koXPp").should("not.exist");
-
-    //   cy.get(".sc-bdVaJa").should("contain", name);
-    //   cy.get(".sc-bdVaJa").should("contain", email);
-    // });
-
     it("Deve ser possivel consultar a lista de usuarios ", () => {
       cy.wait("@getAllUsers").then(({ response }) => {
         const pageOne = response.body.slice(0, 5);
@@ -76,6 +64,46 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
       });
     });
 
+    it("Deve ser possivel consultar o usuario pela barra de pesquisa através do nome", () => {
+      cy.wait("@getAllUsers").then(({ response }) => {
+        const user = response.body[6];
+
+        cy.intercept("GET", "/api/v1/search?value=*", [user]).as("searchUser");
+
+        userListPage.typeSearchBar(user.name);
+        cy.wait("@searchUser");
+
+        userListPage
+          .getName()
+          .should("be.visible")
+          .and("contain.text", `Nome: ${user.name}`);
+        userListPage
+          .getEmail()
+          .should("be.visible")
+          .and("contain.text", `E-mail: ${user.email}`);
+      });
+    });
+
+    it("Deve ser possivel consultar o usuario pela barra de pesquisa através do email", () => {
+      cy.wait("@getAllUsers").then(({ response }) => {
+        const user = response.body[6];
+
+        cy.intercept("GET", "/api/v1/search?value=*", [user]).as("searchUser");
+
+        userListPage.typeSearchBar(user.email);
+        cy.wait("@searchUser");
+
+        userListPage
+          .getName()
+          .should("be.visible")
+          .and("contain.text", `Nome: ${user.name}`);
+        userListPage
+          .getEmail()
+          .should("be.visible")
+          .and("contain.text", `E-mail: ${user.email}`);
+      });
+    });
+
     it("Deve exibir uma ancora para cadastrar um novo usuario ao consultar e a lista de usuarios estiver vazia", () => {
       cy.intercept("GET", "/api/v1/users", {}).as("getEmptyUsers");
 
@@ -102,7 +130,22 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
       userListPage.visit();
     });
 
-    it("Deve exibir mensagem de erro ao tentar consultar a lista de usuarios", () => {
+    it("Deve exibir uma mensagem de erro ao pesquisar um usuario inexistente", () => {
+      cy.intercept("GET", "/api/v1/search?value=*", []).as("searchUser");
+
+      userListPage.typeSearchBar("84489");
+      cy.wait("@searchUser");
+
+      userListPage
+        .getEmptyUserListMessage()
+        .should("be.visible")
+        .and(
+          "contain.text",
+          "Ops! Não existe nenhum usuário para ser exibido."
+        );
+    });
+
+    it("Deve exibir mensagem de erro ao tentar consultar a lista de usuarios e a API falhar", () => {
       cy.intercept("GET", "/api/v1/users", mockErrorInternalServer).as(
         "internalServerError"
       );
