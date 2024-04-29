@@ -44,9 +44,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com nome com menos de 4 caracteres", () => {
-      const name = faker.helpers.arrayElement(
-        faker.rawDefinitions.person.first_name.filter((a) => a.length < 4)
-      );
+      const name = "Jey";
       const email = faker.internet.email();
 
       registrationPage.register(name, email);
@@ -68,8 +66,16 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .and("contain", "Informe no máximo 100 caracteres para o nome");
     });
 
-    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
-      throw new Error("Test not implemented");
+    it.only("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
+      const name = "Jey123";
+      const email = faker.internet.email();
+
+      registrationPage.register(name, email);
+
+      registrationPage
+        .getErrorFeedbackMessageName()
+        .should("be.visible")
+        .and("contain.text", "Formato do nome é inválido.");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario sem email", () => {
