@@ -1,5 +1,5 @@
 import { mockResponseGetUserById } from "../fixtures/mockResponseGetUserById";
-import { UserDetailsPage } from "../support/pages/userDetailsPage";
+import { UserDetailsPage } from "../support/pages/UserDetailsPage";
 
 describe("Consulta de detalhes de usuário", () => {
   describe("Quando a consulta de detalhes de usuário é realizada com sucesso", () => {
