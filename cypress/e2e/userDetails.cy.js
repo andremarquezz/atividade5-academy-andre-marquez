@@ -53,28 +53,3 @@ describe("Consulta de detalhes de usuário", () => {
     });
   });
 });
-
-// describe("Atualização de detalhes de usuário", () => {
-//   const userDetailsPage = new UserDetailsPage();
-
-//   beforeEach(() => {
-//     cy.viewport("macbook-16");
-
-//     userDetailsPage.visit("TODO");
-//   });
-
-//   describe("Quando a edição de um usuário é realizada com sucesso", () => {
-//     it("Deve ser possível editar o nome de um usuário", () => {
-//       cy.wait("@getUserById");
-
-//       userDetailsPage.clickEditButton();
-
-//       userDetailsPage.getIdInput().should("be.disabled");
-//       userDetailsPage.getNameInput().should("be.enabled");
-//       userDetailsPage.getEmailInput().should("be.enabled");
-
-//       userDetailsPage.typeName("Novo nome");
-//       userDetailsPage.clickSaveButton();
-//     });
-//   });
-// });
