@@ -3,6 +3,7 @@ export class UserRegistrationPage {
   emailInput = "#email";
   submitButton = ".sc-kpDqfm";
   backButton = ".sc-gEvEer";
+  raroIcon = ".sc-fqkvVR [href='/']";
   successMessage = ".go4109123758";
   errorFeedbackMessageName = ".sc-cPiKLX";
   errorFeedbackMessageEmail = ".sc-jEACwC";
@@ -24,6 +25,10 @@ export class UserRegistrationPage {
 
   clickBackButton() {
     cy.get(this.backButton).click();
+  }
+
+  clickRaroIcon() {
+    cy.get(this.raroIcon).click();
   }
 
   getSuccessMessage() {

@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { mockErrorUserAlreadyExists } from "../fixtures/mockErrors";
+import { UserListPage } from "../support/pages/UserListPage";
 import { UserRegistrationPage } from "../support/pages/UserRegistrationPage";
 
 describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
@@ -66,7 +67,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .and("contain", "Informe no máximo 100 caracteres para o nome");
     });
 
-    it.only("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
+    it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
       const name = "Jey123";
       const email = faker.internet.email();
 
@@ -129,6 +130,23 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .getErrorFeedbackMessageEmail()
         .should("be.visible")
         .and("contain", "Informe no máximo 60 caracteres para o e-mail");
+    });
+  });
+  describe("Validação de campos", () => {
+    it("Deve redirecionar para a tela de listagem de usuarios ao clicar no botão voltar", () => {
+      const userListPage = new UserListPage();
+
+      registrationPage.clickBackButton();
+
+      cy.url().should("eq", userListPage.URL);
+    });
+
+    it("Deve redirecionar para a tela de listagem de usuarios ao clicar no icone da Raro", () => {
+      const userListPage = new UserListPage();
+
+      registrationPage.clickRaroIcon();
+
+      cy.url().should("eq", userListPage.URL);
     });
   });
 });
