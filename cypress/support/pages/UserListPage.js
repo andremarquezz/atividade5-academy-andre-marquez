@@ -35,4 +35,11 @@ export class UserListPage {
   getModalErrorServerMessage() {
     return cy.get(this.modalErrorServerMessage);
   }
+
+  // createUserAndBackList(name, email) {
+  //   registrationPage.register(name, email);
+
+  //   registrationPage.clickBackButton()
+
+  // }
 }

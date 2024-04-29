@@ -4,6 +4,7 @@ export class UserDetailsPage {
   emailInput = "#userEmail";
   editButton = '.sc-kpDqfm [type="button"]';
   saveButton = '.sc-kpDqfm [type="submit"]';
+  modalAlert = ".sc-dCFHLb";
 
   URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users";
 
@@ -22,6 +23,10 @@ export class UserDetailsPage {
 
   getEmailInput() {
     return cy.get(this.emailInput);
+  }
+
+  getModalAlert() {
+    return cy.get(this.modalAlert);
   }
 
   typeName(name) {

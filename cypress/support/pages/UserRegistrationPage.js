@@ -2,6 +2,7 @@ export class UserRegistrationPage {
   nameInput = "#name";
   emailInput = "#email";
   submitButton = ".sc-kpDqfm";
+  backButton = ".sc-gEvEer";
   successMessage = ".go4109123758";
   errorFeedbackMessageName = ".sc-cPiKLX";
   errorFeedbackMessageEmail = ".sc-jEACwC";
@@ -17,8 +18,12 @@ export class UserRegistrationPage {
     cy.get(this.emailInput).type(email);
   }
 
-  clickButtonSubmit() {
+  clickSubmitButton() {
     cy.get(this.submitButton).click();
+  }
+
+  clickBackButton() {
+    cy.get(this.backButton).click();
   }
 
   getSuccessMessage() {
@@ -44,6 +49,6 @@ export class UserRegistrationPage {
     if (email) {
       this.typeEmail(email);
     }
-    this.clickButtonSubmit();
+    this.clickSubmitButton();
   }
 }

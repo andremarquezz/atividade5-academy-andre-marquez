@@ -30,10 +30,6 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
         .should("exist")
         .and("contain", "Usuário salvo com sucesso!");
     });
-
-    it("Deve mostrar o usuario cadastrado na lista de usuarios", () => {
-      throw new Error("Test not implemented");
-    });
   });
 
   describe("Quando o cadastro de usuarios falha", () => {

@@ -38,46 +38,43 @@ describe("Consulta de detalhes de usuário", () => {
         .should("eq", mockResponseGetUserById.email);
     });
 
-    describe.skip("Quando a consulta de detalhes de usuário falha", () => {
-      it("Deve ser exibida uma mensagem de erro", () => {
-        cy.intercept("GET", "/api/v1/users/*", {
-          statusCode: 500,
-          body: {},
-        }).as("getUserByIdError");
+    describe("Quando a consulta de detalhes de usuário falha", () => {
+      it("Deve ser exibida uma mensagem de usuário não encontrado", () => {
+        const fakeId = "ca8efbac-3269-4d28-8e89-4cd5345";
 
-        userDetailsPage.visit("TODO");
-
-        cy.wait("@getUserByIdError");
+        userDetailsPage.visit(fakeId);
 
         userDetailsPage
-          .getErrorAlert()
-          .should("contain.text", "Erro ao carregar usuário");
+          .getModalAlert()
+          .should("be.visible")
+          .and("contain.text", "Usuário não encontrado")
+          .and("contain.text", "Não foi possível localizar o usuário.");
       });
     });
   });
 });
 
-describe.skip("Atualização de detalhes de usuário", () => {
-  const userDetailsPage = new UserDetailsPage();
+// describe("Atualização de detalhes de usuário", () => {
+//   const userDetailsPage = new UserDetailsPage();
 
-  beforeEach(() => {
-    cy.viewport("macbook-16");
+//   beforeEach(() => {
+//     cy.viewport("macbook-16");
 
-    userDetailsPage.visit("TODO");
-  });
+//     userDetailsPage.visit("TODO");
+//   });
 
-  describe("Quando a edição de um usuário é realizada com sucesso", () => {
-    it("Deve ser possível editar o nome de um usuário", () => {
-      cy.wait("@getUserById");
+//   describe("Quando a edição de um usuário é realizada com sucesso", () => {
+//     it("Deve ser possível editar o nome de um usuário", () => {
+//       cy.wait("@getUserById");
 
-      userDetailsPage.clickEditButton();
+//       userDetailsPage.clickEditButton();
 
-      userDetailsPage.getIdInput().should("be.disabled");
-      userDetailsPage.getNameInput().should("be.enabled");
-      userDetailsPage.getEmailInput().should("be.enabled");
+//       userDetailsPage.getIdInput().should("be.disabled");
+//       userDetailsPage.getNameInput().should("be.enabled");
+//       userDetailsPage.getEmailInput().should("be.enabled");
 
-      userDetailsPage.typeName("Novo nome");
-      userDetailsPage.clickSaveButton();
-    });
-  });
-});
+//       userDetailsPage.typeName("Novo nome");
+//       userDetailsPage.clickSaveButton();
+//     });
+//   });
+// });

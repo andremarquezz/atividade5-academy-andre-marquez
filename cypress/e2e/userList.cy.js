@@ -13,6 +13,18 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
       userListPage.visit();
     });
 
+    // it("Deve mostrar o usuario cadastrado na lista de usuarios", () => {
+    //   const name = faker.helpers.arrayElement(
+    //     faker.rawDefinitions.person.first_name.filter((a) => a.length >= 4)
+    //   );
+    //   const email = faker.internet.email();
+
+    //   cy.get(".sc-koXPp").should("not.exist");
+
+    //   cy.get(".sc-bdVaJa").should("contain", name);
+    //   cy.get(".sc-bdVaJa").should("contain", email);
+    // });
+
     it("Deve ser possivel consultar a lista de usuarios ", () => {
       cy.wait("@getAllUsers").then(({ response }) => {
         const pageOne = response.body.slice(0, 5);
