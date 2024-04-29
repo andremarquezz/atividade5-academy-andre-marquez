@@ -8,11 +8,15 @@ export class UserListPage {
 
   URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users";
 
-  getUserName() {
+  visit() {
+    cy.visit(this.URL);
+  }
+
+  getName() {
     return cy.get(this.userDataName);
   }
 
-  getUserEmail() {
+  getEmail() {
     return cy.get(this.userDataEmail);
   }
 
