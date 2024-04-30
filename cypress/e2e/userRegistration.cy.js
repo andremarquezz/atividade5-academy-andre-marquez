@@ -20,16 +20,14 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
 
       cy.intercept("POST", "/api/v1/users").as("createUser");
 
-      cy.get(registrationPage.nameInput).type(name);
-      cy.get(registrationPage.emailInput).type(email);
-      cy.get(registrationPage.submitButton).click();
+      registrationPage.register(name, email);
 
       cy.wait("@createUser");
 
       registrationPage
         .getSuccessMessage()
         .should("exist")
-        .and("contain", "Usuário salvo com sucesso!");
+        .and("contain.text", "Usuário salvo com sucesso!");
     });
   });
 
@@ -41,7 +39,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageName()
         .should("be.visible")
-        .and("contain", "O campo nome é obrigatório.");
+        .and("contain.text", "O campo nome é obrigatório.");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com nome com menos de 4 caracteres", () => {
@@ -53,7 +51,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageName()
         .should("be.visible")
-        .and("contain", "Informe pelo menos 4 letras para o nome.");
+        .and("contain.text", "Informe pelo menos 4 letras para o nome.");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com nome com mais de 100 caracteres", () => {
@@ -64,7 +62,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageName()
         .should("be.visible")
-        .and("contain", "Informe no máximo 100 caracteres para o nome");
+        .and("contain.text", "Informe no máximo 100 caracteres para o nome");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com numero no nome", () => {
@@ -88,7 +86,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageName()
         .should("be.visible")
-        .and("contain", "O campo e-mail é obrigatório.");
+        .and("contain.text", "O campo e-mail é obrigatório.");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email invalido", () => {
@@ -101,7 +99,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageEmail()
         .should("be.visible")
-        .and("contain", "Formato de e-mail inválido");
+        .and("contain.text", "Formato de e-mail inválido");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email ja cadastrado", () => {
@@ -116,7 +114,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorModal()
         .should("be.visible")
-        .and("contain", "Este e-mail já é utilizado por outro usuário.");
+        .and("contain.text", "Este e-mail já é utilizado por outro usuário.");
     });
 
     it("Deve exibir mensagem de erro ao tentar cadastrar um usuario com email com mais de 60 caracteres", () => {
@@ -129,7 +127,7 @@ describe("Pagina de cadastro de usuarios em telas 1536x960", () => {
       registrationPage
         .getErrorFeedbackMessageEmail()
         .should("be.visible")
-        .and("contain", "Informe no máximo 60 caracteres para o e-mail");
+        .and("contain.text", "Informe no máximo 60 caracteres para o e-mail");
     });
   });
   describe("Validação de campos", () => {
