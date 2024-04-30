@@ -5,11 +5,13 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
   const userListPage = new UserListPage();
 
   describe("Quando a consulta de usuarios é realizada com sucesso", () => {
+    before(() => {
+      cy.createUser();
+    });
+
     beforeEach(() => {
       cy.viewport("macbook-16");
-      cy.intercept("GET", "/api/v1/users", {
-        fixture: "mockResponseGetAllUsers.json",
-      }).as("getAllUsers");
+      cy.intercept("GET", "/api/v1/users").as("getAllUsers");
       userListPage.visit();
     });
 
@@ -18,19 +20,22 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
         const pageOne = response.body.slice(0, 5);
 
         pageOne.forEach((user) => {
+          const truncatedEmail = user.email.substring(0, 21);
+
           userListPage.getName().should("contain.text", `Nome: ${user.name}`);
           userListPage
             .getEmail()
-            .should("contain.text", `E-mail: ${user.email}`);
+            .should("contain.text", `E-mail: ${truncatedEmail}`);
         });
       });
     });
 
     it("Deve ser possivel consultar o usuario pela barra de pesquisa através do nome", () => {
       cy.wait("@getAllUsers").then(({ response }) => {
-        const user = response.body[6];
+        const user = response.body[0];
+        const truncatedEmail = user.email.substring(0, 21);
 
-        cy.intercept("GET", "/api/v1/search?value=*", [user]).as("searchUser");
+        cy.intercept("GET", "/api/v1/search?value=*").as("searchUser");
 
         userListPage.typeSearchBar(user.name);
         cy.wait("@searchUser");
@@ -42,15 +47,16 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
         userListPage
           .getEmail()
           .should("be.visible")
-          .and("contain.text", `E-mail: ${user.email}`);
+          .and("contain.text", `E-mail: ${truncatedEmail}`);
       });
     });
 
     it("Deve ser possivel consultar o usuario pela barra de pesquisa através do email", () => {
       cy.wait("@getAllUsers").then(({ response }) => {
-        const user = response.body[6];
+        const user = response.body[0];
+        const truncatedEmail = user.email.substring(0, 21);
 
-        cy.intercept("GET", "/api/v1/search?value=*", [user]).as("searchUser");
+        cy.intercept("GET", "/api/v1/search?value=*").as("searchUser");
 
         userListPage.typeSearchBar(user.email);
         cy.wait("@searchUser");
@@ -62,7 +68,7 @@ describe("Pagina de consulta de usuarios em telas 1536x960", () => {
         userListPage
           .getEmail()
           .should("be.visible")
-          .and("contain.text", `E-mail: ${user.email}`);
+          .and("contain.text", `E-mail: ${truncatedEmail}`);
       });
     });
 
