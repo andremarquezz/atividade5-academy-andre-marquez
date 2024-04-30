@@ -1,20 +1,22 @@
-import { mockResponseGetUserById } from "../fixtures/mockResponseGetUserById";
 import { UserDetailsPage } from "../support/pages/UserDetailsPage";
 
 describe("Consulta de detalhes de usuário", () => {
   describe("Quando a consulta de detalhes de usuário é realizada com sucesso", () => {
     const userDetailsPage = new UserDetailsPage();
+    let user;
+
+    before(() => {
+      cy.createUser().then((randomUser) => {
+        user = randomUser;
+      });
+    });
 
     beforeEach(() => {
       cy.viewport("macbook-16");
 
-      cy.intercept(
-        "GET",
-        `/api/v1/users/${mockResponseGetUserById.id}`,
-        mockResponseGetUserById
-      ).as("getUserById");
+      cy.intercept("GET", "/api/v1/users/*").as("getUserById");
 
-      userDetailsPage.visit(mockResponseGetUserById.id);
+      userDetailsPage.visit(user.id);
     });
 
     it("Deve ser possível consultar os detalhes de um usuário", () => {
@@ -24,18 +26,9 @@ describe("Consulta de detalhes de usuário", () => {
       userDetailsPage.getNameInput().should("be.disabled");
       userDetailsPage.getEmailInput().should("be.disabled");
 
-      userDetailsPage
-        .getIdInput()
-        .invoke("val")
-        .should("eq", mockResponseGetUserById.id);
-      userDetailsPage
-        .getNameInput()
-        .invoke("val")
-        .should("eq", mockResponseGetUserById.name);
-      userDetailsPage
-        .getEmailInput()
-        .invoke("val")
-        .should("eq", mockResponseGetUserById.email);
+      userDetailsPage.getIdInput().invoke("val").should("eq", user.id);
+      userDetailsPage.getNameInput().invoke("val").should("eq", user.name);
+      userDetailsPage.getEmailInput().invoke("val").should("eq", user.email);
     });
 
     describe("Quando a consulta de detalhes de usuário falha", () => {
@@ -51,5 +44,20 @@ describe("Consulta de detalhes de usuário", () => {
           .and("contain.text", "Não foi possível localizar o usuário.");
       });
     });
+  });
+});
+
+describe("Validação de campos", () => {
+  beforeEach(() => {
+    cy.viewport("macbook-16");
+    cy.intercept("GET", "/api/v1/users/*", {}).as("getUserById");
+  });
+
+  it("Deve retornar a lista de usuarios cadastrados quando o usuario não for encontrado e clicar no botão de cancelar ", () => {
+    const fakeId = "ca8efbac-3269-4d28-8e89-4cd5345";
+
+    userDetailsPage.visit(fakeId);
+
+    userDetailsPage.getModalAlert().should("be.visible");
   });
 });
