@@ -2,8 +2,9 @@ export class UserDetailsPage {
   idInput = "[name=id]";
   nameInput = "#userName";
   emailInput = "#userEmail";
-  editButton = '.sc-kpDqfm [type="button"]';
+  editButton = '[type="button"] > .sc-dAlyuH';
   saveButton = '.sc-kpDqfm [type="submit"]';
+  cancelButton = ".sc-lcIPJg";
   modalAlert = ".sc-dCFHLb";
 
   URL = "https://rarocrud-frontend-88984f6e4454.herokuapp.com/users";
@@ -12,7 +13,6 @@ export class UserDetailsPage {
     const userDetailsURL = `${this.URL}/${userId}`;
     cy.visit(userDetailsURL);
   }
-
   getIdInput() {
     return cy.get(this.idInput);
   }
@@ -43,6 +43,10 @@ export class UserDetailsPage {
 
   clickSaveButton() {
     cy.get(this.saveButton).click();
+  }
+
+  clickCancelButton() {
+    cy.get(this.cancelButton).click();
   }
 
   edit(name, email) {

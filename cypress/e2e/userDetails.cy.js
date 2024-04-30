@@ -1,4 +1,5 @@
 import { UserDetailsPage } from "../support/pages/UserDetailsPage";
+import { UserListPage } from "../support/pages/UserListPage";
 
 describe("Consulta de detalhes de usuário", () => {
   describe("Quando a consulta de detalhes de usuário é realizada com sucesso", () => {
@@ -48,16 +49,41 @@ describe("Consulta de detalhes de usuário", () => {
 });
 
 describe("Validação de campos", () => {
+  const userDetailsPage = new UserDetailsPage();
+  let user;
+
+  before(() => {
+    cy.createUser().then((randomUser) => {
+      user = randomUser;
+    });
+  });
+
   beforeEach(() => {
     cy.viewport("macbook-16");
-    cy.intercept("GET", "/api/v1/users/*", {}).as("getUserById");
+    cy.intercept("GET", "/api/v1/users/*").as("getUserById");
   });
 
   it("Deve retornar a lista de usuarios cadastrados quando o usuario não for encontrado e clicar no botão de cancelar ", () => {
     const fakeId = "ca8efbac-3269-4d28-8e89-4cd5345";
+    const userListPage = new UserListPage();
 
     userDetailsPage.visit(fakeId);
 
+    cy.wait("@getUserById");
+
     userDetailsPage.getModalAlert().should("be.visible");
+    userDetailsPage.clickCancelButton();
+    cy.url().should("eq", userListPage.URL);
+  });
+
+  it("Deve liberar os campos para edição quando clicar no botão de editar", () => {
+    userDetailsPage.visit(user.id);
+
+    cy.wait("@getUserById");
+
+    userDetailsPage.clickEditButton();
+
+    userDetailsPage.getNameInput().should("not.be.disabled");
+    userDetailsPage.getEmailInput().should("not.be.disabled");
   });
 });
